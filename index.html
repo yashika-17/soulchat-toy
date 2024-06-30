@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoulChat</title>
+  <style>
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes slideIn {
+      0% { transform: translateY(-20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: url(https://cdn.openart.ai/uploads/image_X7Pvnmpt_1694830097582_512.webp) no-repeat center center fixed;
+      background-size: cover;
+      animation: fadeIn 1s ease-in-out;
+      color: #4b4453;
+    }
+    .overlay {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      margin-right: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+      animation: slideIn 1s ease-in-out;
+    }
+    .overlay h1 {
+      color: #c04196;
+      font-size: 2em;
+      margin-bottom: 0.5em;
+    }
+    .overlay p {
+      color: #cf92f5;
+      font-size: 1.2em;
+      margin: 0.5em 0;
+    }
+    .chatbox {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 360px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 40vh;
+      margin-top: 20px;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 10px;
+      margin-bottom: 10px;
+    }
+    .message {
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      border-radius: 20px;
+      line-height: 1.4;
+      max-width: 75%;
+      word-wrap: break-word;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .user {
+      align-self: flex-end;
+      background-color: #ffcccb;
+      color: #333;
+    }
+    .ai {
+      align-self: flex-start;
+      background-color: #d7e5ff;
+      color: #333;
+    }
+    .input-container {
+      display: flex;
+      align-items: center;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+    .input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .input:focus {
+      outline: none;
+    }
+    .chatbox::-webkit-scrollbar {
+      width: 8px;
+    }
+    .chatbox::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 4px;
+    }
+    .chatbox::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1>Welcome to SoulChat</h1>
+    <p>Your friendly companion for those moments when you need someone to talk to.</p>
+    <p>Remember, it's okay to feel how you feel.</p>
+    <p>You are not alone in this.</p>
+    <p>Take a deep breath. I'm here with you.</p>
+  </div>
+  <div class="chatbox">
+    <div class="messages" id="messages"></div>
+    <div class="input-container">
+      <input type="text" id="userInput" class="input" placeholder="Type your message..." />
+    </div>
+  </div>
+  <script>
+    const messages = document.getElementById('messages');
+    const userInput = document.getElementById('userInput');
+    const initialBotMessages = [
+      "Hey there! How's it going? 😊",
+      "Hi! I’m here to chat. How are you feeling today? 🌸",
+      "Hello! How has your day been so far? 🌼"
+    ];
+    const responses = [
+      "I'm here for you.",
+      "Tell me more about that.",
+      "It's okay to feel this way.",
+      "You’re not alone.",
+      "That sounds tough. I'm glad you're sharing this with me.",
+      "Remember, I'm here to support you.",
+      "Would you like to talk more about it?",
+      "I'm listening."
+    ];
+
+    function addMessage(text, sender) {
+      const message = document.createElement('div');
+      message.classList.add('message', sender);
+      message.textContent = text;
+      messages.appendChild(message);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function botGreeting() {
+      const initialMessage = initialBotMessages[Math.floor(Math.random() * initialBotMessages.length)];
+      addMessage(initialMessage, 'ai');
+    }
+
+    userInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && userInput.value.trim() !== '') {
+        const userText = userInput.value;
+        userInput.value = '';
+        addMessage(userText, 'user');
+        setTimeout(() => {
+          const response = responses[Math.floor(Math.random() * responses.length)];
+          addMessage(response, 'ai');
+        }, 500);
+      }
+    });
+
+    // Start the conversation with a greeting
+    window.onload = botGreeting;
+  </script>
+</body>
+</html>
